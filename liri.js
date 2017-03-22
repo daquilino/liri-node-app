@@ -27,7 +27,6 @@ function liriLogic(command, argument)
 	        if (song === undefined)
 	        {
 	        	song = "The Sign";
-
 	        }	
 
 	        break;
