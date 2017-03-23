@@ -5,10 +5,10 @@
 	
 
 
-##Langages Used
--Node.js
+## Langages Used
+- Node.js
 
-##API's Used
-*Twitter
-*Spotify
-*OMDB
+## API's Used
+* Twitter
+* Spotify
+* OMDB
