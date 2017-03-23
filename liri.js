@@ -1,90 +1,43 @@
-var fs = require('fs');
+const FS = require('fs');
+const SPOTIFY = require("spotify");
+const TWITTER = require('twitter');
+const KEYS = require("./keys.js");
+const REQUEST = require('request');
 
-var keys = require("./keys.js");
-
-//gets argument (command) after liri.js
+//gets arguments after liri.js
 var args = process.argv;
+
+//'first argument' after 'node liri'
 var command = args[2];
-var argument = args[3]
 
-liriLogic(command, argument);
+//'sescond argument' after 'node liri'
+var argument = args[3];
 
-function liriLogic(command, argument)
+//Calls 
+runLiri(command, argument);
+
+//Runs proper 'command' function based on users argument(s).
+//If command is not defined (understood by liri), the user is notified.
+function runLiri(command, argument)
 {
-
+console.log("runLiri command: " + command);	//TEST CODE REMOVE
+console.log("runLiri argument: " + argument);	//TEST CODE REMOVE
 	switch(command)
 	{
 		case "my-tweets":
-	        //code block
-	       
+	        twitterAPI();       
 	        break;
 	  	
 	  	case "spotify-this-song":
-	        
-	        var song = argument;
-	    console.log(command +" " + song);
-			//Sets default if song is undefined.        
-	        if (song === undefined)
-	        {
-	        	song = "The Sign";
-	        }	
-
+	        spotifyAPI(argument);
 	        break;
 	    
 	    case "movie-this":
-	        var movie = argument;
-
-	        //Sets default if movie is undefined.
-	        if (movie === undefined)
-	        {
-	        	movie = "Mr. Nobody";
-	        }
-
-	        var request = require('request');
-			
-			const OMBD_ENDPOINT = "http://www.omdbapi.com/?";
-
-			var url = OMBD_ENDPOINT + "t=" + movie;	
-
-			//Data is in the 'body' as a string.
-			request(url, function (error, response, body) 
-			{
-				if (error)
-				{
-					console.log("error: " + error);
-				}
-
-				//stores the movie data as object.
-				var movieData = JSON.parse(body);
-
-			 	console.log("Title: " + movieData.Title);
-			 	console.log("Year: " + movieData.Year);
-			 	console.log("IMBD Rating: " + movieData.imdbRating);
-			 	console.log("Country: " + movieData.Country);
-			 	console.log("Language: " + movieData.Language);
-			 	console.log("Plot: " + movieData.Plot);
-			 	console.log("Actors: " + movieData.Actors);
-			 	// //console.log("Rotten Tomatoes Rating: " + movieData.);
-			 	// //console.log("Rotten Tomatoes URL: " + movieData.);
-			});
-        
+	        omdbAPI(argument);
 	        break;
 	    
-	    case "do-what-it-says":
-	        fs.readFile('random.txt', function(err, data)
-			{ 
-			  	if(err)
-			  	{
-			  		console.log(err);
-			  	}
-			  	
-			  	var x = data.toString();
-			  	args = x.split(",");
-			  	
-			  	liriLogic(args[0], args[1]);
-
-		 	});
-	        
+	    case "do-what-it-says":      
+	        doWhatItSays();
 	        break;
 	    
 	    default:
@@ -92,23 +45,143 @@ function liriLogic(command, argument)
 
 	}//END switch
 
-}//END liriLogic
+}//END runLiri()
 
 
-//====================================================================================
-/*--------------------- NOTES -------------------------------------------*/
-// this crates a file and adds aaa to it.
-//fs.writeFile('test.txt', 'aaa', function(err) {});
-
-
+//===========================================================================
 
 function writeToLog(data)
 {
-	fs.appendFile('log.txt', "\n" + data, function (err) { 
+	FS.appendFile('log.txt', data + "\n", function (err) { 
 	    if (err)
 	        console.log(err);
 	    else
 	        console.log('Append operation complete.');
 	});
 
-}//END writeToLog
+}//END writeToLog()
+
+
+//===========================================================================
+
+function twitterAPI()
+{
+
+	var client = new TWITTER({
+	  consumer_key: KEYS.twitterKeys.consumer_key,
+	  consumer_secret: KEYS.twitterKeys.consumer_secret,
+	  access_token_key: KEYS.twitterKeys.access_token_key,
+	  access_token_secret: KEYS.twitterKeys.access_token_secret
+	});
+ 
+	var params = {screen_name: "thesoybeanjelly"};//NEED TO CHANGE TO MY TWITTER ACCOUNT
+
+	client.get('statuses/user_timeline', params, function(error, tweets, response)
+	{
+		if(error)
+		{
+			console.log("Sorry, There Seems To Be A Problem With Twitter. Try Again.");
+		}
+		else
+		{		    
+			console.log("\n*** Here Are My Last 20 Tweets (Newest First) ***");
+
+		    for(var i = 0; i < 20; i++)
+		    {		    	
+		    	if(tweets[i] != undefined)
+		    	{			    		
+		    		console.log( i+1  + ".) " + tweets[i].text);
+		    	}		    			    	
+			}
+	  	}
+	});
+
+}//END twitterAPI()
+
+//===========================================================================
+
+
+function spotifyAPI(song)
+{		
+	//Sets default if song is undefined.        
+    if (song === undefined)
+    {
+    	song = "The Sign";
+    }	
+
+	SPOTIFY.search({ type: 'track', query: song }, function(err, data) {
+	    if ( err ) {
+	        console.log("Sorry, There Seems To Be A Problem With Spotify. Try Again.");
+	        return;
+	    }
+	 
+	    console.log("\n*** Spotify Results For '" + song + "' ***");
+	    
+	    console.log("Artist: " + data.tracks.items[0].artists[0].name);
+	    console.log("Song Name: " + data.tracks.items[0].name);
+	    console.log("Preview URL: " + data.tracks.items[0].preview_url);
+	    console.log("Album: " + data.tracks.items[0].album.name);
+	});
+}//END spotifyAPI()
+
+//===========================================================================
+
+
+function omdbAPI(movie)
+{
+    //Sets default if movie is undefined.
+    if (movie === undefined)
+    {
+    	movie = "Mr. Nobody";
+    }
+	
+	const OMBD_ENDPOINT = "http://www.omdbapi.com/?";
+
+	var url = OMBD_ENDPOINT + "t=" + movie;	
+
+	//Data is in the 'body' as a string.
+	REQUEST(url, function (error, response, body) 
+	{
+		if (error)
+		{
+			console.log("Sorry, There Seems To Be A Problem With OMDB. Try Again.");
+			return;
+		}
+
+		//stores the movie data as object.
+		var movieData = JSON.parse(body);
+
+		console.log("\n*** OMDB Results For '" + movie + "' ***");
+
+	 	console.log("Title: " + movieData.Title);
+	 	console.log("Year: " + movieData.Year);
+	 	console.log("IMBD Rating: " + movieData.imdbRating);
+	 	console.log("Country: " + movieData.Country);
+	 	console.log("Language: " + movieData.Language);
+	 	console.log("Plot: " + movieData.Plot);
+	 	console.log("Actors: " + movieData.Actors);
+	 	// //console.log("Rotten Tomatoes Rating: " + movieData.);// Depricated
+	 	// //console.log("Rotten Tomatoes URL: " + movieData.);// Depricated
+	});
+
+}//END omdbAPI()
+
+//===========================================================================
+
+function doWhatItSays()
+{
+	FS.readFile('random.txt', "utf8", function(err, data)
+	{ 
+	  	if(err)
+	  	{
+	  		console.log("Sorry, There Was An Error Reading 'random.txt'.");
+	  	}
+	  			  
+	  	var args = data.split(",");
+	  	var command = args[0];
+	  	var argument = args[1];
+	  	
+	  	runLiri(command, argument);
+ 	});
+
+}//END doWhatItSays()
