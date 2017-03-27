@@ -16,12 +16,13 @@ var argument = args[3];
 //Calls 
 runLiri(command, argument);
 
+
 //Runs proper 'command' function based on users argument(s).
 //If command is not defined (understood by liri), the user is notified.
 function runLiri(command, argument)
 {
-console.log("runLiri command: " + command);	//TEST CODE REMOVE
-console.log("runLiri argument: " + argument);	//TEST CODE REMOVE
+//console.log("runLiri command: " + command);	//TEST CODE REMOVE
+//console.log("runLiri argument: " + argument);	//TEST CODE REMOVE
 	switch(command)
 	{
 		case "my-tweets":
@@ -41,7 +42,7 @@ console.log("runLiri argument: " + argument);	//TEST CODE REMOVE
 	        break;
 	    
 	    default:
-	        console.log("Sorry, Liri Didn't Understand Your Command. Try Again.");
+	        console.log("\nSorry, Liri Didn't Understand Your Command. Try Again.");
 
 	}//END switch
 
@@ -52,8 +53,9 @@ console.log("runLiri argument: " + argument);	//TEST CODE REMOVE
 
 function writeToLog(data)
 {
-	FS.appendFile('log.txt', data + "\n", function (err) { 
-	    if (err)
+	FS.appendFile('log.txt', data + "\n", function (err) 
+	{ 
+	   	if (err)
 	        console.log(err);
 	    else
 	        console.log('Append operation complete.');
@@ -80,7 +82,7 @@ function twitterAPI()
 	{
 		if(error)
 		{
-			console.log("Sorry, There Seems To Be A Problem With Twitter. Try Again.");
+			console.log("\nSorry, There Seems To Be A Problem With Twitter. Try Again.");
 		}
 		else
 		{		    
@@ -111,7 +113,7 @@ function spotifyAPI(song)
 
 	SPOTIFY.search({ type: 'track', query: song }, function(err, data) {
 	    if ( err ) {
-	        console.log("Sorry, There Seems To Be A Problem With Spotify. Try Again.");
+	        console.log("\nSorry, There Seems To Be A Problem With Spotify. Try Again.");
 	        return;
 	    }
 	 
@@ -144,7 +146,7 @@ function omdbAPI(movie)
 	{
 		if (error)
 		{
-			console.log("Sorry, There Seems To Be A Problem With OMDB. Try Again.");
+			console.log("\nSorry, There Seems To Be A Problem With OMDB. Try Again.");
 			return;
 		}
 
