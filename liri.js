@@ -152,18 +152,28 @@ function omdbAPI(movie)
 
 		//stores the movie data as object.
 		var movieData = JSON.parse(body);
-
+		var movieTitle = movieData.Title;
 		console.log("\n*** OMDB Results For '" + movie + "' ***");
 
-	 	console.log("Title: " + movieData.Title);
+	 	console.log("Title: " + movieTitle);
 	 	console.log("Year: " + movieData.Year);
 	 	console.log("IMBD Rating: " + movieData.imdbRating);
 	 	console.log("Country: " + movieData.Country);
 	 	console.log("Language: " + movieData.Language);
 	 	console.log("Plot: " + movieData.Plot);
 	 	console.log("Actors: " + movieData.Actors);
-	 	// //console.log("Rotten Tomatoes Rating: " + movieData.);// Depricated
-	 	// //console.log("Rotten Tomatoes URL: " + movieData.);// Depricated
+	 	
+	 	//If movie title starts with 'The', 'The' is removed, title is trimed, and made lowercase. 
+	 	if(movieTitle.startsWith("The"))
+	 	{
+	 		movieTitle = movieTitle.replace("The" , "").trim().toLowerCase();
+	 	}	
+
+	 	//replaces all 'white space' with an underscore.
+	 	movieTitle = movieTitle.replace(/\s/g, "_");
+	 	
+	 	//console.log("Rotten Tomatoes Rating: " + movieData.);// Depricated
+	 	console.log("Rotten Tomatoes URL: " + "https://www.rottentomatoes.com/m/" + movieTitle);
 	});
 
 }//END omdbAPI()
