@@ -21,8 +21,6 @@ runLiri(command, argument);
 //If command is not defined (understood by liri), the user is notified.
 function runLiri(command, argument)
 {
-//console.log("runLiri command: " + command);	//TEST CODE REMOVE
-//console.log("runLiri argument: " + argument);	//TEST CODE REMOVE
 	switch(command)
 	{
 		case "my-tweets":
@@ -56,9 +54,9 @@ function writeToLog(data)
 	FS.appendFile('log.txt', data + "\n", function (err) 
 	{ 
 	   	if (err)
-	        console.log(err);
-	    else
-	        console.log('Append operation complete.');
+	   	{	
+	        console.log("Error saving to log.txt");
+	    }
 	});
 
 }//END writeToLog()
