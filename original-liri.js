@@ -3,7 +3,6 @@ const SPOTIFY = require("spotify");
 const TWITTER = require('twitter');
 const KEYS = require("./keys.js");
 const REQUEST = require('request');
-const MOMENT = require('moment');
 
 //gets arguments after liri.js
 var args = process.argv;
@@ -84,18 +83,14 @@ function twitterAPI()
 			console.log("\nSorry, There Seems To Be A Problem With Twitter. Try Again.");
 		}
 		else
-		{		    			
-			console.log("\n*** My Last 20 Tweets (Newest First) ***\n");
+		{		    
+			console.log("\n*** Here Are My Last 20 Tweets (Newest First) ***");
 
-		    for(let i = 0; i < 20; i++)
+		    for(var i = 0; i < 20; i++)
 		    {		    	
 		    	if(tweets[i] != undefined)
-		    	{	
-		    		let tweet = tweets[i].text;
-		    		let tweetTime = MOMENT(tweets[i].created_at, "dd MMM DD HH.mm:ss ZZ YYYY").format("MMMM Do YYYY h:mm A");	    		
-
-		    		console.log(tweetTime + "\n" +"- '"+ tweet + "'\n");
-		    		
+		    	{			    		
+		    		console.log( i+1  + ".) " + tweets[i].text);
 		    	}		    			    	
 			}
 	  	}
