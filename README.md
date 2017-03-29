@@ -14,7 +14,8 @@
 * [spotify](https://www.npmjs.com/package/spotify)
 * [request](https://www.npmjs.com/package/request)
 * [file-system](https://www.npmjs.com/package/file-system)
-* [moment]((https://www.npmjs.com/package/file-system)
+* [moment](https://www.npmjs.com/package/moment)
+* [cheerio](https://www.npmjs.com/package/cheerio)
 
 ## API's Used
 * Twitter

@@ -4,7 +4,9 @@
   "description": "packages for liri.js",
   "main": "liri.js",
   "dependencies": {
+    "cheerio": "^0.22.0",
     "file-system": "^2.2.2",
+    "moment": "^2.18.1",
     "request": "^2.81.0",
     "spotify": "^0.3.0",
     "twitter": "^1.7.0"

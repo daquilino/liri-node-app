@@ -4,6 +4,7 @@ const TWITTER = require('twitter');
 const KEYS = require("./keys.js");
 const REQUEST = require('request');
 const MOMENT = require('moment');
+const CHEERIO = require('cheerio');
 
 //gets arguments after liri.js
 var args = process.argv;
@@ -156,7 +157,7 @@ function omdbAPI(movie)
 		//stores the movie data as object.
 		var movieData = JSON.parse(body);
 		var movieTitle = movieData.Title;
-		console.log("\n*** OMDB Results For '" + movie + "' ***");
+		console.log("\n*** OMDB Results For '" + movieTitle + "' ***");
 
 	 	console.log("Title: " + movieTitle);
 	 	console.log("Year: " + movieData.Year);
@@ -177,6 +178,32 @@ function omdbAPI(movie)
 	 	
 	 	//console.log("Rotten Tomatoes Rating: " + movieData.);// Depricated
 	 	console.log("Rotten Tomatoes URL: " + "https://www.rottentomatoes.com/m/" + movieTitle);
+
+	 	const ROTTON_TOMATOES_ENDPOINT = "https://www.rottentomatoes.com/m/";
+		
+		var url = ROTTON_TOMATOES_ENDPOINT +  movieTitle;
+
+		REQUEST(url, function (error, data, body) 
+		{
+			if(error)
+			{
+				console.log("error");
+				return;
+			}	
+
+			//This loads in the html (body) from REQEST
+			var $ = CHEERIO.load(body);
+
+			//dataObject is the object inside the '<script>' tag of id jsonLdSchema
+			//in the rotten tomatoes html file ($). 
+		    var dataObject = JSON.parse($("#jsonLdSchema").html());
+		    
+		    var rating = dataObject.aggregateRating.ratingValue;
+
+		    console.log("Rotten Tomatoes Rating: " + rating);
+
+		});
+
 	});
 
 }//END omdbAPI()
