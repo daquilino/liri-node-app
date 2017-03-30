@@ -7,13 +7,13 @@ const MOMENT = require('moment');
 const CHEERIO = require('cheerio');
 
 //gets arguments after liri.js
-var args = process.argv;
+let args = process.argv;
 
 //'first argument' after 'node liri'
-var command = args[2];
+let command = args[2];
 
 //'sescond argument' after 'node liri'
-var argument = args[3];
+let argument = args[3];
 
 //Calls 
 runLiri(command, argument);
@@ -69,16 +69,16 @@ function writeToLog(data)
 function twitterAPI()
 {
 
-	var client = new TWITTER({
+	const CLIENT = new TWITTER({
 	  consumer_key: KEYS.twitterKeys.consumer_key,
 	  consumer_secret: KEYS.twitterKeys.consumer_secret,
 	  access_token_key: KEYS.twitterKeys.access_token_key,
 	  access_token_secret: KEYS.twitterKeys.access_token_secret
 	});
  
-	var params = {screen_name: "thesoybeanjelly"};//NEED TO CHANGE TO MY TWITTER ACCOUNT
+	const PARAMS = {screen_name: "thesoybeanjelly"};//NEED TO CHANGE TO MY TWITTER ACCOUNT
 
-	client.get('statuses/user_timeline', params, function(error, tweets, response)
+	CLIENT.get('statuses/user_timeline', PARAMS, function(error, tweets, response)
 	{
 		if(error)
 		{
@@ -95,8 +95,7 @@ function twitterAPI()
 		    		let tweet = tweets[i].text;
 		    		let tweetTime = MOMENT(tweets[i].created_at, "dd MMM DD HH.mm:ss ZZ YYYY").format("MMMM Do YYYY h:mm A");	    		
 
-		    		console.log(tweetTime + "\n" +"- '"+ tweet + "'\n");
-		    		
+		    		console.log(tweetTime + "\n" +"- '"+ tweet + "'\n");	    		
 		    	}		    			    	
 			}
 	  	}
@@ -121,8 +120,7 @@ function spotifyAPI(song)
 	        return;
 	    }
 	 
-	    console.log("\n*** Spotify Results For '" + song + "' ***");
-	    
+	    console.log("\n*** Spotify Results For '" + song + "' ***");	    
 	    console.log("Artist: " + data.tracks.items[0].artists[0].name);
 	    console.log("Song Name: " + data.tracks.items[0].name);
 	    console.log("Preview URL: " + data.tracks.items[0].preview_url);
@@ -142,8 +140,7 @@ function omdbAPI(movie)
     }
 	
 	const OMBD_ENDPOINT = "http://www.omdbapi.com/?";
-
-	var url = OMBD_ENDPOINT + "t=" + movie;	
+	let url = OMBD_ENDPOINT + "t=" + movie;	
 
 	//Data is in the 'body' as a string.
 	REQUEST(url, function (error, response, body) 
@@ -153,63 +150,71 @@ function omdbAPI(movie)
 			console.log("\nSorry, There Seems To Be A Problem With OMDB. Try Again.");
 			return;
 		}
+			//stores movie 'body' data as object
+			let movieData = JSON.parse(body);		
 
-		//stores the movie data as object.
-		var movieData = JSON.parse(body);
-		var movieTitle = movieData.Title;
-		console.log("\n*** OMDB Results For '" + movieTitle + "' ***");
 
-	 	console.log("Title: " + movieTitle);
-	 	console.log("Year: " + movieData.Year);
-	 	console.log("IMBD Rating: " + movieData.imdbRating);
-	 	console.log("Country: " + movieData.Country);
-	 	console.log("Language: " + movieData.Language);
-	 	console.log("Plot: " + movieData.Plot);
-	 	console.log("Actors: " + movieData.Actors);
-	 	
-	 	//If movie title starts with 'The', 'The' is removed, title is trimed, and made lowercase. 
-	 	if(movieTitle.startsWith("The"))
-	 	{
-	 		movieTitle = movieTitle.replace("The" , "").trim().toLowerCase();
-	 	}	
-
-	 	//replaces all 'white space' with an underscore.
-	 	movieTitle = movieTitle.replace(/\s/g, "_");
-	 	
-	 	//console.log("Rotten Tomatoes Rating: " + movieData.);// Depricated
-	 	console.log("Rotten Tomatoes URL: " + "https://www.rottentomatoes.com/m/" + movieTitle);
-
-	 	const ROTTON_TOMATOES_ENDPOINT = "https://www.rottentomatoes.com/m/";
-		
-		var url = ROTTON_TOMATOES_ENDPOINT +  movieTitle;
-
-		REQUEST(url, function (error, data, body) 
+		if(movieData.Response === "False")
 		{
-			if(error)
+			console.log("'" + movie +"' Not Found!  Try Another Title.");
+		}	
+		else
+		{
+			
+			let movieTitle = movieData.Title;
+			
+			console.log("\n*** OMDB Results For '" + movieTitle + "' ***");
+		 	console.log("Title: " + movieTitle);
+		 	console.log("Year: " + movieData.Year);
+		 	console.log("IMBD Rating: " + movieData.imdbRating);
+		 	console.log("Country: " + movieData.Country);
+		 	console.log("Language: " + movieData.Language);
+		 	console.log("Plot: " + movieData.Plot);
+		 	console.log("Actors: " + movieData.Actors);
+		 	
+		 	//If movie title starts with 'The', 'The' is removed, title is trimed, and made lowercase. 
+		 	if(movieTitle.startsWith("The"))
+		 	{
+		 		movieTitle = movieTitle.replace("The" , "").trim().toLowerCase();
+		 	}	
+
+		 	//replaces all 'white space' with an underscore.
+		 	movieTitle = movieTitle.replace(/\s/g, "_");
+		 	
+		 	//console.log("Rotten Tomatoes Rating: " + movieData.);// Depricated
+		 	console.log("Rotten Tomatoes URL: " + "https://www.rottentomatoes.com/m/" + movieTitle);
+
+		 	const ROTTON_TOMATOES_ENDPOINT = "https://www.rottentomatoes.com/m/";		
+			let url = ROTTON_TOMATOES_ENDPOINT +  movieTitle;
+
+			REQUEST(url, function (error, data, body) 
 			{
-				console.log("error");
-				return;
-			}	
+				if(error)
+				{
+					console.log("error");
+					return;
+				}	
 
-			//This loads in the html (body) from REQEST
-			var $ = CHEERIO.load(body);
+				//This loads in the html (body) from REQEST
+				let $ = CHEERIO.load(body);
 
-			//dataObject is the object inside the '<script>' tag of id jsonLdSchema
-			//in the rotten tomatoes html file ($). 
-		    var dataObject = JSON.parse($("#jsonLdSchema").html());
-		    
-		    var rating = dataObject.aggregateRating.ratingValue;
+				//dataObject is the object inside the '<script>' tag of id jsonLdSchema
+				//in the rotten tomatoes html file ($). 
+			    let dataObject = JSON.parse($("#jsonLdSchema").html());
+			    
+			    let rating = dataObject.aggregateRating.ratingValue;
 
-		    console.log("Rotten Tomatoes Rating: " + rating);
+			    console.log("Rotten Tomatoes Rating: " + rating);
 
-		});
-
+			});
+		}
 	});
 
 }//END omdbAPI()
 
 //===========================================================================
 
+// Reads liri arguments from 'random.txt' file.
 function doWhatItSays()
 {
 	FS.readFile('random.txt', "utf8", function(err, data)
@@ -218,11 +223,13 @@ function doWhatItSays()
 	  	{
 	  		console.log("Sorry, There Was An Error Reading 'random.txt'.");
 	  	}
-	  			  
-	  	var args = data.split(",");
-	  	var command = args[0];
-	  	var argument = args[1];
+	  	//Splits data string from random.txt by "," into array 'args'.
+	  	//Sets 'command' and 'argument' from 'args' array.		  
+	  	let args = data.split(",");
+	  	let command = args[0];
+	  	let argument = args[1];
 	  	
+	  	//Runs liri with 'command' and 'argument'.
 	  	runLiri(command, argument);
  	});
 
