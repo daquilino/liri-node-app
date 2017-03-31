@@ -52,13 +52,18 @@ $ node liri.js do-what-it-says
 <dl>
   <dt>my-tweets</dt>
   <dd>Displays my last 20 tweets.</dd>
+ </dl> 
   ```
 $ node liri.js my-tweets
 ```
+<dl>
+  <dt>spotify-this-song</dt>
+  <dd>Dlsadkjflaskdf alsdkfjlasdfj kfjlakdf kjdflkjdf lkjdflaksjfd lkjsdflkajsdf lkjldfkjalsdf lkjlkjsadf lkjlkjsadf lksdjflkaj</dd>
+ </dl> 
+  ```
+$ node liri.js movie-this <"movie title here">
+```
 
-  <dt>Markdown in HTML</dt>
-  <dd>Does *not* work **very** well. Use HTML <em>tags</em>.</dd>
-</dl>
 
 ## Built With
 
