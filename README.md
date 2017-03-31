@@ -31,20 +31,21 @@ $ npm install
 ## Usage
 Liri takes the following four commands as arguments.
 
-* 'my-tweets' - Displays my last 20 tweets.
+* my-tweets - 
+> Displays my last 20 tweets.
 ```
 $ node liri.js my-tweets
 ```
 
-* 'spotify-this-song' - 
+* spotify-this-song - 
 ```
 $ node liri.js spotify-this <"song title here">
 ```
-* 'movie-this'
+* movie-this
 ```
 $ node liri.js movie-this <"movie title here">
 ```
-* 'do-what-it-says'
+* do-what-it-says
 ```
 $ node liri.js do-what-it-says
 ```
