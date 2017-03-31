@@ -1,30 +1,40 @@
-# liri-node-app
- LIRI is a Language Interpretation and Recognition Interface.  LIRI is a command line node app that takes in parameters and gives you back data.
+# liri
 
-## Instructions
+ Language Interpretation and Recognition Interface.  LIRI is a command line node app that takes in parameters and gives you back data. 
 
-	
+## Getting Started
 
-## Pre-requisites
- * Node.js
- * npm packages	installed.
-	
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-## Languages Used
-- Node.js
+### Prerequisites
+
+ node.js 
 
 
-## NPM Packages
-* [twitter](https://www.npmjs.com/package/twitter)
-* [spotify](https://www.npmjs.com/package/spotify)
-* [request](https://www.npmjs.com/package/request)
-* [file-system](https://www.npmjs.com/package/file-system)
-* [moment](https://www.npmjs.com/package/moment)
-* [cheerio](https://www.npmjs.com/package/cheerio)
 
-## API's Used
-* Twitter
-* Spotify
-* OMDB
+### Installing
+
+1. Clone liri repository. 
+
+```
+$ git clone https://github.com/daquilino/liri-node-app
+```
+
+2. Within cloned repository run the following to install npm packages.
+
+```
+$ npm install
+```
+
+
+## Built With
+
+* [Sublime Text](https://www.sublimetext.com/) - Text Editor
+
+
+
+## Author
+
+* **Douglas Aquilino** - [https://github.com/daquilino](https://github.com/daquilino)
 
 
