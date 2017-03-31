@@ -15,9 +15,10 @@ let command = args[2];
 //'sescond argument' after 'node liri'
 let argument = args[3];
 
-//Calls 
+//Call to initiate program
 runLiri(command, argument);
 
+//===========================================================================
 
 //Runs proper 'command' function based on users argument(s).
 //If command is not defined (understood by liri), the user is notified.
@@ -51,9 +52,10 @@ function runLiri(command, argument)
 
 //===========================================================================
 
+//Appends 'data' to log.txt file
 function writeToLog(data)
 {
-	FS.appendFile('log.txt', data + "\n", function (err) 
+	FS.appendFileSync('log.txt', data + "\n", function (err) 
 	{ 
 	   	if (err)
 	   	{	
@@ -66,9 +68,10 @@ function writeToLog(data)
 
 //===========================================================================
 
+//Uses npm 'Twitter' package to query Twitter my tweets.
+//Then displays the time and content for my last 20 tweets.
 function twitterAPI()
 {
-
 	const CLIENT = new TWITTER({
 	  consumer_key: KEYS.twitterKeys.consumer_key,
 	  consumer_secret: KEYS.twitterKeys.consumer_secret,
@@ -88,24 +91,30 @@ function twitterAPI()
 		{		    			
 			console.log("\n*** My Last 20 Tweets (Newest First) ***\n");
 
+			//Loops through last 20 'tweets' and displays them if they exist. 
 		    for(let i = 0; i < 20; i++)
 		    {		    	
 		    	if(tweets[i] != undefined)
-		    	{	
+		    	{		    		
 		    		let tweet = tweets[i].text;
-		    		let tweetTime = MOMENT(tweets[i].created_at, "dd MMM DD HH.mm:ss ZZ YYYY").format("MMMM Do YYYY h:mm A");	    		
+
+		    		//Creates a moments.js time from tweet's 'created_at' time, and formats for display
+		    		let tweetTime = MOMENT(tweets[i].created_at, "dd MMM DD HH.mm:ss ZZ YYYY")
+		    			.format("MMMM Do YYYY h:mm A");	    		
 
 		    		console.log(tweetTime + "\n" +"- '"+ tweet + "'\n");	    		
 		    	}		    			    	
 			}
-	  	}
-	});
+	  	}//END else
+	});//END CLIENT.get
 
 }//END twitterAPI()
 
 //===========================================================================
 
-
+//Uses npm 'Spotify' package to query Spotify for song from user argument.
+//If no song argument is provided by user, 'The Sign' will be used as default.
+//If found displays the songs 'Artist', 'Song Name', 'Preview URL', and 'Album' data. 
 function spotifyAPI(song)
 {		
 	//Sets default if song is undefined.        
@@ -115,22 +124,37 @@ function spotifyAPI(song)
     }	
 
 	SPOTIFY.search({ type: 'track', query: song }, function(err, data) {
-	    if ( err ) {
+	    //checks for error
+	    if (err) {
 	        console.log("\nSorry, There Seems To Be A Problem With Spotify. Try Again.");
 	        return;
 	    }
-	 
-	    console.log("\n*** Spotify Results For '" + song + "' ***");	    
-	    console.log("Artist: " + data.tracks.items[0].artists[0].name);
-	    console.log("Song Name: " + data.tracks.items[0].name);
-	    console.log("Preview URL: " + data.tracks.items[0].preview_url);
-	    console.log("Album: " + data.tracks.items[0].album.name);
+
+		//Checks if any song information found.
+		if(data.tracks.items.length !== 0)
+		{
+		    console.log("\n*** Spotify Results For '" + song + "' ***");	    
+		    console.log("Artist: " + data.tracks.items[0].artists[0].name);
+		    console.log("Song Name: " + data.tracks.items[0].name);
+		    console.log("Preview URL: " + data.tracks.items[0].preview_url);
+		    console.log("Album: " + data.tracks.items[0].album.name);
+		}
+		else
+		{
+			console.log("\n'" + song +"' Found No Results!  Try Another Song.");
+		}
 	});
 }//END spotifyAPI()
 
 //===========================================================================
 
-
+//Uses npm 'request' package to query OMDB API for a movie from user argument.
+//If no movie argument is provided by user, 'Mr. Nobody' will be used as default.
+//If found displays the movie's 'Title', 'Year', 'IMDB Rating', 'Country', 'Language',
+//'Plot', and 'Actors' data from OMDB.
+//Next 'request' is used again with the movie 'Title' to query 'Rotten Tomatoes'.
+//Then npm 'cheerio' package is used to 'scrape' 'Rotten Tomatoes' html 'body' response
+//for the movies 'Rotten Tomato Rating' data. 
 function omdbAPI(movie)
 {
     //Sets default if movie is undefined.
@@ -153,14 +177,13 @@ function omdbAPI(movie)
 			//stores movie 'body' data as object
 			let movieData = JSON.parse(body);		
 
-
+		//Checks if any movie information found.	
 		if(movieData.Response === "False")
 		{
-			console.log("'" + movie +"' Not Found!  Try Another Title.");
+			console.log("\n'" + movie +"' Found No Results!  Try Another Title.");
 		}	
 		else
-		{
-			
+		{		
 			let movieTitle = movieData.Title;
 			
 			console.log("\n*** OMDB Results For '" + movieTitle + "' ***");
@@ -172,21 +195,27 @@ function omdbAPI(movie)
 		 	console.log("Plot: " + movieData.Plot);
 		 	console.log("Actors: " + movieData.Actors);
 		 	
-		 	//If movie title starts with 'The', 'The' is removed, title is trimed, and made lowercase. 
+		 	//If movie title starts with 'The', 'The' is removed, and the title is trimed. 
 		 	if(movieTitle.startsWith("The"))
 		 	{
-		 		movieTitle = movieTitle.replace("The" , "").trim().toLowerCase();
+		 		movieTitle = movieTitle.replace("The" , "").trim();
 		 	}	
 
-		 	//replaces all 'white space' with an underscore.
-		 	movieTitle = movieTitle.replace(/\s/g, "_");
-		 	
-		 	//console.log("Rotten Tomatoes Rating: " + movieData.);// Depricated
-		 	console.log("Rotten Tomatoes URL: " + "https://www.rottentomatoes.com/m/" + movieTitle);
+		 	//The movie title is made lowercase.
+		 	movieTitle= movieTitle.toLowerCase();
 
+		 	//Replaces all non alpha-numeric characters with "", 
+		 	//then replaces all 'white space' with an underscore. 
+		 	//Example: 'mr. nobody' becomes 'mr_nobody'
+		 	movieTitle = movieTitle.replace(/[^a-z,0-9]/, "").replace(/\s/g, "_");
+		 	
 		 	const ROTTON_TOMATOES_ENDPOINT = "https://www.rottentomatoes.com/m/";		
 			let url = ROTTON_TOMATOES_ENDPOINT +  movieTitle;
 
+			//console.log("Rotten Tomatoes Rating: " + movieData.);// Depricated
+		 	console.log("Rotten Tomatoes URL: " + url);
+
+			//Scrapes 'Rotten Tomatoes' results page for movie rating.
 			REQUEST(url, function (error, data, body) 
 			{
 				if(error)
@@ -195,26 +224,45 @@ function omdbAPI(movie)
 					return;
 				}	
 
-				//This loads in the html (body) from REQEST
+				//This loads in the html page (body) of Rotten Tomaotes from REQEST
 				let $ = CHEERIO.load(body);
 
-				//dataObject is the object inside the '<script>' tag of id jsonLdSchema
+				//Saves JSON object that holds movie data from html file.
+				//The object is inside the '<script>' tag with id 'jsonLdSchema'
 				//in the rotten tomatoes html file ($). 
 			    let dataObject = JSON.parse($("#jsonLdSchema").html());
-			    
-			    let rating = dataObject.aggregateRating.ratingValue;
+		    
+		    	//Checks if any movie information found.
+		    	if(dataObject !== null)
+		    	{	
+			    	let rating = dataObject.aggregateRating.ratingValue;
+				    
+			    	//Checks if rating is a number (exists).
+				    if(!isNaN(rating))
+				    {	
+				    	console.log("Rotten Tomatoes Rating: " + rating);
+					}
+					else
+					{
+						console.log("Rotten Tomatoes Rating: N/A");
+					}
+				}
+				else
+				{
+					console.log("Rotten Tomatoes Rating: N/A");
+				}	
 
-			    console.log("Rotten Tomatoes Rating: " + rating);
 
-			});
-		}
-	});
+			});//END REQUEST
+		}//END else
+	});//END REQUEST
 
 }//END omdbAPI()
 
 //===========================================================================
 
 // Reads liri arguments from 'random.txt' file.
+// Then uses those arguments calling runLiri().
 function doWhatItSays()
 {
 	FS.readFile('random.txt', "utf8", function(err, data)
@@ -231,6 +279,6 @@ function doWhatItSays()
 	  	
 	  	//Runs liri with 'command' and 'argument'.
 	  	runLiri(command, argument);
- 	});
+ 	});//END FS.readFile
 
 }//END doWhatItSays()
