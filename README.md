@@ -19,7 +19,8 @@ These instructions will get you a copy of the project up and running on your loc
 ```
 $ git clone https://github.com/daquilino/liri-node-app
 ```
-2. Download and install Node.js (if not installed already). [download](https://nodejs.org/en/download/)
+2. Download and install Node.js (if not installed already). 
+[Node.js Download Page](https://nodejs.org/en/download/)
 
 3. Within cloned repository run the following to install npm packages.
 
