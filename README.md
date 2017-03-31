@@ -4,8 +4,6 @@
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
 ### Prerequisites
 
 * [node.js]() 
@@ -14,19 +12,43 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installing
 
-1. Clone liri repository. 
+1. Download and install Node.js (if not installed already). 
+[Node.js Download Page](https://nodejs.org/en/download/)
+
+2. Clone liri repository. 
 
 ```
 $ git clone https://github.com/daquilino/liri-node-app
 ```
-2. Download and install Node.js (if not installed already). 
-[Node.js Download Page](https://nodejs.org/en/download/)
 
 3. Within cloned repository run the following to install npm packages.
 
 ```
 $ npm install
 ```
+### Usage
+Liri takes the following four commands as arguments.
+
+* my-tweets
+```
+$ node liri.js my-tweets
+```
+
+* spotify-this-song
+```
+$ node liri.js spotify-this <"song title here">
+```
+* movie-this
+```
+$ node liri.js movie-this <"movie title here">
+```
+* do-what-it-says
+```
+$ node liri.js do-what-it-says
+```
+
+
+
 ## NPM Packages
 * [twitter](https://www.npmjs.com/package/twitter) - Library for Twitter API. 
 * [spotify](https://www.npmjs.com/package/spotify)	- Library for Spotify API.
