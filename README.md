@@ -31,12 +31,12 @@ $ npm install
 ## Usage
 Liri takes the following four commands as arguments.
 
-* my-tweets
+* my-tweets - Displays my last 20 tweets.
 ```
 $ node liri.js my-tweets
 ```
 
-* spotify-this-song
+* spotify-this-song - 
 ```
 $ node liri.js spotify-this <"song title here">
 ```
@@ -54,7 +54,7 @@ $ node liri.js do-what-it-says
 
 * [Sublime Text](https://www.sublimetext.com/) - Text Editor.
 
-###### **NPM Packages**
+###### NPM Packages
 * [twitter](https://www.npmjs.com/package/twitter) - Library for Twitter API. 
 * [spotify](https://www.npmjs.com/package/spotify)	- Library for Spotify API.
 * [request](https://www.npmjs.com/package/request)	- Library used to make http calls.
