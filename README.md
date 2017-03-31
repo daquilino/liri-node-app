@@ -26,7 +26,7 @@ $ git clone https://github.com/daquilino/liri-node-app
 ```
 $ npm install
 ```
-### Usage
+## Usage
 Liri takes the following four commands as arguments.
 
 * my-tweets
@@ -48,18 +48,17 @@ $ node liri.js do-what-it-says
 ```
 
 
+## Built With
 
-## NPM Packages
+* [Sublime Text](https://www.sublimetext.com/) - Text Editor.
+
+###### NPM Packages
 * [twitter](https://www.npmjs.com/package/twitter) - Library for Twitter API. 
 * [spotify](https://www.npmjs.com/package/spotify)	- Library for Spotify API.
 * [request](https://www.npmjs.com/package/request)	- Library used to make http calls.
 * [file-system](https://www.npmjs.com/package/file-system)	- Library to read/write data in a file.
 * [moment](https://www.npmjs.com/package/moment)	- A JavaScript date library.
 * [cheerio](https://www.npmjs.com/package/cheerio) - Implementation of core jQuery for the server.
-
-## Built With
-
-* [Sublime Text](https://www.sublimetext.com/) - Text Editor.
 
 
 
