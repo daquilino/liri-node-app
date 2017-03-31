@@ -49,7 +49,16 @@ $ node liri.js movie-this <"movie title here">
 ```
 $ node liri.js do-what-it-says
 ```
+<dl>
+  <dt>my-tweets</dt>
+  <dd>Displays my last 20 tweets.</dd>
+  ```
+$ node liri.js my-tweets
+```
 
+  <dt>Markdown in HTML</dt>
+  <dd>Does *not* work **very** well. Use HTML <em>tags</em>.</dd>
+</dl>
 
 ## Built With
 
