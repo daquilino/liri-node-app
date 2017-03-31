@@ -6,7 +6,7 @@
 
 ### Prerequisites
 
-* [node.js]() 
+* [Node.js](https://nodejs.org) 
 
 
 
@@ -26,6 +26,8 @@ $ git clone https://github.com/daquilino/liri-node-app
 ```
 $ npm install
 ```
+
+
 ## Usage
 Liri takes the following four commands as arguments.
 
@@ -52,7 +54,7 @@ $ node liri.js do-what-it-says
 
 * [Sublime Text](https://www.sublimetext.com/) - Text Editor.
 
-###### NPM Packages
+###### **NPM Packages**
 * [twitter](https://www.npmjs.com/package/twitter) - Library for Twitter API. 
 * [spotify](https://www.npmjs.com/package/spotify)	- Library for Spotify API.
 * [request](https://www.npmjs.com/package/request)	- Library used to make http calls.
