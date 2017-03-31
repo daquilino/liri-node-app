@@ -16,9 +16,9 @@
 
 ## NPM Packages
 * [twitter](https://www.npmjs.com/package/twitter) - Library for Twitter API. 
-* [spotify](https://www.npmjs.com/package/spotify)	- Used to handle Spotify API requests
+* [spotify](https://www.npmjs.com/package/spotify)	- Library for Spotify API.
 * [request](https://www.npmjs.com/package/request)	- Library used to make http calls.
-* [file-system](https://www.npmjs.com/package/file-system)	- Used to read/write data to file
+* [file-system](https://www.npmjs.com/package/file-system)	- Library to read/write data in a file.
 * [moment](https://www.npmjs.com/package/moment)	- A JavaScript date library.
 * [cheerio](https://www.npmjs.com/package/cheerio) - Implementation of core jQuery for the server.
 
