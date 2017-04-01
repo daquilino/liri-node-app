@@ -32,10 +32,10 @@ $ npm install
 
 1. `my-tweets`
  
- ```
- $ node liri.js my-tweets 
- ```
-  * Displays my last 20 tweets in your terminal/bash window.
+  ```
+  $ node liri.js my-tweets 
+  ```
+     * Displays my last 20 tweets in your terminal/bash window.
 
 2. `spotify-this-song` 
   ```
