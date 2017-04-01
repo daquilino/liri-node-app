@@ -1,3 +1,6 @@
+// Douglas Aquilino      April 2, 2017		keys.js
+// Twitter and Spotiky API keys
+
 console.log('this is loaded\n');
 
 exports.twitterKeys =

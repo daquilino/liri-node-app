@@ -1,10 +1,24 @@
+/* Douglas Aquilino      April 2, 2017		liri.js
+
+    LIRI is a command line node app that takes in parameters and gives back data.
+LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and
+Recognition Interface, LIRI is a Language Interpretation and Recognition Interface.
+LIRI understands four command (see README.md for usage ) the user can use.  The 
+commands can be used to get a movie's information from OMDB and Rotten Tommatoes, 
+a song's information from Spotify,  display my last 20 tweets, or to run one of 
+the previous commands using data from the random.txt file.
+*/
+
+//npm packages
 const FS = require('fs');
 const SPOTIFY = require("spotify");
 const TWITTER = require('twitter');
-const KEYS = require("./keys.js");
 const REQUEST = require('request');
 const MOMENT = require('moment');
 const CHEERIO = require('cheerio');
+
+//file with API object keys
+const KEYS = require("./keys.js");
 
 //gets arguments after liri.js
 let args = process.argv;
@@ -29,11 +43,11 @@ function runLiri(command, argument)
 
 	if(argument === undefined)
 	{
-		writeToLog("\n$ node liri " + command + "\n");
+		writeToLog("\n>$ node liri " + command + "\n");
 	}
 	else	
 	{	
-		writeToLog("\n$ node liri " + command + " " +  argument + "\n");
+		writeToLog("\n>$ node liri " + command + " " +  argument + "\n");
 	}	
 	
 	switch(command)
@@ -66,10 +80,10 @@ function runLiri(command, argument)
 
 //===========================================================================
 
-//Appends 'data' to log.txt file.  I used 'Sync' so data writes in order.
+//Appends 'data' to log.txt file.  I used 'Sync' so data writes in order called.
 function writeToLog(data)
 {
-	FS.appendFileSync('log.txt', "\n" + data);
+	FS.appendFileSync('log.txt', "\r\n" + data);
 
 }//END writeToLog()
 
@@ -112,7 +126,7 @@ function twitterAPI()
 		    		let tweetTime = MOMENT(tweets[i].created_at, "dd MMM DD HH.mm:ss ZZ YYYY")
 		    			.format("MMMM Do YYYY h:mm A");	    		
 
-		    		let tweetMsg = tweetTime + "\n" +"- '"+ tweet;
+		    		let tweetMsg = tweetTime + "\n" +"- '"+ tweet + "\n";
 		    		console.log(tweetMsg);
 		    		writeToLog(tweetMsg);	    		
 		    	}		    			    	
@@ -161,8 +175,7 @@ function spotifyAPI(song)
 			{
 				console.log(messages[key]);
 				writeToLog(messages[key]);
-			}	
-		    
+			}			    
 		}
 		else
 		{
@@ -198,7 +211,9 @@ function omdbAPI(movie)
 	{
 		if (error)
 		{
-			console.log("\nSorry, There Seems To Be A Problem With OMDB. Try Again.");
+			let errorMsg = "Sorry, There Seems To Be A Problem With OMDB. Try Again.";
+			console.log(errorMsg);
+			writeToLog(errorMsg);
 			return;
 		}
 			//stores movie 'body' data as object
@@ -207,20 +222,33 @@ function omdbAPI(movie)
 		//Checks if any movie information found.	
 		if(movieData.Response === "False")
 		{
-			console.log("\n'" + movie +"' Found No Results!  Try Another Title.");
+			let errorMsg =  movie + "' Found No Results!  Try Another Title.";
+			console.log(errorMsg);
+			writeToLog(errorMsg);
 		}	
 		else
 		{		
 			let movieTitle = movieData.Title;
 			
-			console.log("\n* OMDB Results For '" + movieTitle + "' *\n");
-		 	console.log("Title: " + movieTitle);
-		 	console.log("Year: " + movieData.Year);
-		 	console.log("IMBD Rating: " + movieData.imdbRating);
-		 	console.log("Country: " + movieData.Country);
-		 	console.log("Language: " + movieData.Language);
-		 	console.log("Plot: " + movieData.Plot);
-		 	console.log("Actors: " + movieData.Actors);
+			 //String messeges for display
+			let resultsMsg = "* OMDB Results For '" + movieTitle + "' *\n";
+			let titleMsg = "Title: " + movieTitle;
+			let yearMsg = "Year: " + movieData.Year;
+			let imdbRatingMsg = "IMBD Rating: " + movieData.imdbRating;
+			let countryMsg = "Country: " + movieData.Country;
+			let languageMsg = "Language: " + movieData.Language;
+			let plotMsg = "Plot: " + movieData.Plot
+			let actorsMsg = "Actors: " + movieData.Actors;
+
+			//array of string messeges
+			let messages =[resultsMsg, titleMsg, yearMsg, imdbRatingMsg, countryMsg, languageMsg, plotMsg, actorsMsg];
+
+			for(let key in messages)
+			{
+				console.log(messages[key]);
+				writeToLog(messages[key]);
+			}	
+
 		 	
 		 	//If movie title starts with 'The', 'The' is removed, and the title is trimed. 
 		 	if(movieTitle.startsWith("The"))
@@ -239,14 +267,18 @@ function omdbAPI(movie)
 		 	const ROTTON_TOMATOES_ENDPOINT = "https://www.rottentomatoes.com/m/";		
 			let url = ROTTON_TOMATOES_ENDPOINT +  movieTitle;
 
-		 	console.log("Rotten Tomatoes URL: " + url);
+		 	let rottenUrlMsg = "Rotten Tomatoes URL: " + url;
+		 	console.log(rottenUrlMsg);
+		 	writeToLog(rottenUrlMsg);
 
 			//Scrapes 'Rotten Tomatoes' results page for movie rating.
 			REQUEST(url, function (error, data, body) 
 			{
 				if(error)
 				{
-					console.log("error");
+					let errorMsg = "Sorry, There Seems To Be A Problem With Rotten Tomatoes. Try Again.";
+					console.log(errorMsg);
+					writeToLog(errorMsg);
 					return;
 				}	
 
@@ -266,16 +298,23 @@ function omdbAPI(movie)
 			    	//Checks if rating is a number (exists).
 				    if(!isNaN(rating))
 				    {	
-				    	console.log("Rotten Tomatoes Rating: " + rating);
+				    	let errorMsg = "Rotten Tomatoes Rating: " + rating;
+				    	console.log(errorMsg);
+				    	writeToLog(errorMsg);
 					}
 					else
 					{
-						console.log("Rotten Tomatoes Rating: N/A");
+						let noRatingMsg = "Rotten Tomatoes Rating: N/A";
+						console.log(noRatingMsg);
+						writeToLog(noRatingMsg);
 					}
 				}
+				//When no Rotten Tomatoe results exist.
 				else
 				{
-					console.log("Rotten Tomatoes Rating: N/A");
+					let noRatingMsg = "Rotten Tomatoes Rating: N/A";
+					console.log(noRatingMsg);
+					writeToLog(noRatingMsg);
 				}	
 
 			});//END REQUEST
