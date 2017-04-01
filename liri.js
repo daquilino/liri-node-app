@@ -186,7 +186,7 @@ function omdbAPI(movie)
 		{		
 			let movieTitle = movieData.Title;
 			
-			console.log("\n*** OMDB Results For '" + movieTitle + "' ***");
+			console.log("\n---------- OMDB Results For '" + movieTitle + "' ----------\n");
 		 	console.log("Title: " + movieTitle);
 		 	console.log("Year: " + movieData.Year);
 		 	console.log("IMBD Rating: " + movieData.imdbRating);
@@ -204,11 +204,11 @@ function omdbAPI(movie)
 		 	//The movie title is made lowercase.
 		 	movieTitle= movieTitle.toLowerCase();
 
-		 	//Replaces all non alpha-numeric characters with "", 
+		 	//Replaces all non alpha-numeric characters except spaces with "", 
 		 	//then replaces all 'white space' with an underscore. 
 		 	//Example: 'mr. nobody' becomes 'mr_nobody'
-		 	movieTitle = movieTitle.replace(/[^a-z,0-9]/, "").replace(/\s/g, "_");
-		 	
+		 	movieTitle = movieTitle.replace(/[^a-z,0-9,\s]/g, "").replace(/\s/g, "_");
+	 	
 		 	const ROTTON_TOMATOES_ENDPOINT = "https://www.rottentomatoes.com/m/";		
 			let url = ROTTON_TOMATOES_ENDPOINT +  movieTitle;
 

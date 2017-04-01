@@ -1,6 +1,6 @@
 # liri
 
- Language Interpretation and Recognition Interface.  LIRI is a command line node app that takes in parameters and gives you back data. 
+ LIRI is a command line node app that takes in parameters and gives you back data.  LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and Recognition Interface, LIRI is a Language Interpretation and Recognition Interface.  LIRI understands four command (see usage below) the user can use to get a movie's informationn from OMDB and Rotten Tommatoes, a song's information from Spotify, to see my last 20 tweets, or to run one of the previous commands using data from the random.txt file.   
 
 ## Getting Started
 
@@ -9,13 +9,12 @@
 * [Node.js](https://nodejs.org) 
 
 
-
 ### Installing
 
 1. Download and install Node.js (if not installed already). 
 [Node.js Download Page](https://nodejs.org/en/download/)
 
-2. Clone liri repository. 
+2. Clone liri-node-app repository. 
 
 ```
 $ git clone https://github.com/daquilino/liri-node-app
@@ -29,10 +28,10 @@ $ npm install
 
 
 ## Usage
-Liri takes the following four commands as arguments.
+liri takes the following four commands as arguments.
 
 * my-tweets
-    Displays my last 20 tweets.
+    -Displays my last 20 tweets.
 ```
 $ node liri.js my-tweets
 ```
