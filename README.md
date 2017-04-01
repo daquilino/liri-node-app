@@ -58,32 +58,34 @@ $ node liri.js spotify-this <"song title here">
 
 
 3. `movie-this`
+
 ```
 $ node liri.js movie-this <"movie title here">
 ```
-	* This will output the following information to your terminal/bash window:
+   * This will output the following information to your terminal/bash window:
 
      ```
-       * Title of the movie.
-       * Year the movie came out.
-       * IMDB Rating of the movie.
-       * Country where the movie was produced.
-       * Language of the movie.
-       * Plot of the movie.
-       * Actors in the movie.
-       * Rotten Tomatoes URL.
-       * Rotten Tomatoes Rating.
+     * Title of the movie.
+     * Year the movie came out.
+     * IMDB Rating of the movie.
+     * Country where the movie was produced.
+     * Language of the movie.
+     * Plot of the movie.
+     * Actors in the movie.
+     * Rotten Tomatoes URL.
+     * Rotten Tomatoes Rating.
      ```
-    * if no movie is provided then your program will default to
-       * "Mr. Nobody" 	
+   * if no movie is provided then your program will default to
+     * "Mr. Nobody" 	
 
 
 
 4. `do-what-it-says`
+
 ```
 $ node liri.js do-what-it-says
 ```
-* Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
+    * Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
 
 
 ## Built With
