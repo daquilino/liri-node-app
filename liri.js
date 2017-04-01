@@ -24,6 +24,18 @@ runLiri(command, argument);
 //If command is not defined (understood by liri), the user is notified.
 function runLiri(command, argument)
 {
+	writeToLog("------------------------------------------");
+	
+
+	if(argument === undefined)
+	{
+		writeToLog("node liri " + command);
+	}
+	else	
+	{	
+		writeToLog("node liri " + command + " " +  argument);
+	}	
+	
 	switch(command)
 	{
 		case "my-tweets":
@@ -43,7 +55,9 @@ function runLiri(command, argument)
 	        break;
 	    
 	    default:
-	        console.log("\nSorry, Liri Didn't Understand Your Command. Try Again.");
+	        let defaultMsg = "Sorry, Liri Didn't Understand Your Command. Try Again.";	
+	        console.log("\n" + defaultMsg);
+	        writeToLog(defaultMsg);
 
 	}//END switch
 
@@ -55,13 +69,7 @@ function runLiri(command, argument)
 //Appends 'data' to log.txt file
 function writeToLog(data)
 {
-	FS.appendFileSync('log.txt', data + "\n", function (err) 
-	{ 
-	   	if (err)
-	   	{	
-	        console.log("Error saving to log.txt");
-	    }
-	});
+	FS.appendFileSync('log.txt', "\n" + data);
 
 }//END writeToLog()
 
@@ -212,7 +220,6 @@ function omdbAPI(movie)
 		 	const ROTTON_TOMATOES_ENDPOINT = "https://www.rottentomatoes.com/m/";		
 			let url = ROTTON_TOMATOES_ENDPOINT +  movieTitle;
 
-			//console.log("Rotten Tomatoes Rating: " + movieData.);// Depricated
 		 	console.log("Rotten Tomatoes URL: " + url);
 
 			//Scrapes 'Rotten Tomatoes' results page for movie rating.
@@ -231,9 +238,9 @@ function omdbAPI(movie)
 				//The object is inside the '<script>' tag with id 'jsonLdSchema'
 				//in the rotten tomatoes html file ($). 
 			    let dataObject = JSON.parse($("#jsonLdSchema").html());
-		    
-		    	//Checks if any movie information found.
-		    	if(dataObject !== null)
+	    
+		    	//Checks if dataObject exists and movie rating property exists.
+		    	if(dataObject != null && dataObject.aggregateRating != undefined)
 		    	{	
 			    	let rating = dataObject.aggregateRating.ratingValue;
 				    
@@ -252,7 +259,6 @@ function omdbAPI(movie)
 					console.log("Rotten Tomatoes Rating: N/A");
 				}	
 
-
 			});//END REQUEST
 		}//END else
 	});//END REQUEST
@@ -269,7 +275,9 @@ function doWhatItSays()
 	{ 
 	  	if(err)
 	  	{
-	  		console.log("Sorry, There Was An Error Reading 'random.txt'.");
+	  		let errorMsg = "Sorry, There Was An Error Reading 'random.txt'.";
+	  		console.log(errorMsg);
+	  		writeToLog(errorMsg);
 	  	}
 	  	//Splits data string from random.txt by "," into array 'args'.
 	  	//Sets 'command' and 'argument' from 'args' array.		  
