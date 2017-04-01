@@ -30,32 +30,34 @@ $ npm install
 ## Usage
 liri takes the following four commands as arguments.
 
-* `my-tweets`
+1. `my-tweets`
  
-  ```
-  $ node liri.js my-tweets 
-  ```
+```
+$ node liri.js my-tweets 
+```
   * Displays my last 20 tweets in your terminal/bash window.
 
-* `spotify-this-song` 
-  ```
-  $ node liri.js spotify-this <"song title here">
-  ```
+2. `spotify-this-song` 
+```
+$ node liri.js spotify-this <"song title here">
+```
   * This will show the following information about the song in your terminal/bash window
+     
+	```
      * Artist(s)
      * The song's name
      * A preview link of the song from Spotify
      * The album that the song is from
-
+	```
   * if no song is provided then your program will default to
      * "The Sign" by Ace of Base
 
 
 
-* `movie-this`
-  ```
-  $ node liri.js movie-this <"movie title here">
-  ```
+3. `movie-this`
+```
+$ node liri.js movie-this <"movie title here">
+```
 	* This will output the following information to your terminal/bash window:
 
      ```
@@ -74,10 +76,11 @@ liri takes the following four commands as arguments.
 
 
 
-* `do-what-it-says`
+4. `do-what-it-says`
 ```
 $ node liri.js do-what-it-says
 ```
+* Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
 
 
 ## Built With
