@@ -1,6 +1,6 @@
 # liri
 
- LIRI is a command line node app that takes in parameters and gives back data.  LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and Recognition Interface, LIRI is a Language Interpretation and Recognition Interface.  LIRI understands four command (see usage below) the user can use.  The commands can be used to get a movie's information from OMDB and Rotten Tommatoes, a song's information from Spotify, display my last 20 tweets, or to run one of the previous commands using data from the random.txt file.   
+ LIRI is a command line node app that takes in parameters and gives back data.  LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and Recognition Interface, LIRI is a Language Interpretation and Recognition Interface.  LIRI understands four command (see usage below) the user can use.  The commands can be used to get a movie's information from OMDB and Rotten Tommatoes, a song's information from Spotify, display my last 20 tweets, or to run one of the previous commands using data from the random.txt file.   In addition to logging the data the terminal/bash window, the data is also written to a .txt file called log.txt.   
 
 ## Getting Started
 

@@ -6,7 +6,9 @@ Recognition Interface, LIRI is a Language Interpretation and Recognition Interfa
 LIRI understands four command (see README.md for usage ) the user can use.  The 
 commands can be used to get a movie's information from OMDB and Rotten Tommatoes, 
 a song's information from Spotify,  display my last 20 tweets, or to run one of 
-the previous commands using data from the random.txt file.
+the previous commands using data from the random.txt file.  In addition to logging
+the data the terminal/bash window, the data is also written to a .txt file 
+called log.txt.
 */
 
 //npm packages
@@ -17,7 +19,7 @@ const REQUEST = require('request');
 const MOMENT = require('moment');
 const CHEERIO = require('cheerio');
 
-//file with API object keys
+//module with API object keys
 const KEYS = require("./keys.js");
 
 //gets arguments after liri.js
@@ -40,7 +42,6 @@ function runLiri(command, argument)
 {
 	writeToLog("\n==============================================================================");
 	
-
 	if(argument === undefined)
 	{
 		writeToLog("\n>$ node liri " + command + "\n");
@@ -80,7 +81,9 @@ function runLiri(command, argument)
 
 //===========================================================================
 
-//Appends 'data' to log.txt file.  I used 'Sync' so data writes in order called.
+//Appends 'data' to log.txt file using 'file-system' npm package.  I used 
+//'appendFileSync' so data is appended to file in order function is called,
+//and not asynchronously.  *NOTE: There is no callback function for appendFileSync.
 function writeToLog(data)
 {
 	FS.appendFileSync('log.txt', "\r\n" + data);
@@ -248,8 +251,7 @@ function omdbAPI(movie)
 				console.log(messages[key]);
 				writeToLog(messages[key]);
 			}	
-
-		 	
+	 	
 		 	//If movie title starts with 'The', 'The' is removed, and the title is trimed. 
 		 	if(movieTitle.startsWith("The"))
 		 	{
@@ -337,6 +339,7 @@ function doWhatItSays()
 	  		console.log(errorMsg);
 	  		writeToLog(errorMsg);
 	  	}
+	  	
 	  	//Splits data string from random.txt by "," into array 'args'.
 	  	//Sets 'command' and 'argument' from 'args' array.		  
 	  	let args = data.split(",");
