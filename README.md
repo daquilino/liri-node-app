@@ -31,20 +31,50 @@ $ npm install
 liri takes the following four commands as arguments.
 
 * `my-tweets`
-  * Displays my last 20 tweets.
+ 
   ```
-  $ node liri.js my-tweets
+  $ node liri.js my-tweets 
   ```
+  * Displays my last 20 tweets in your terminal/bash window.
 
-* spotify-this-song - 
-```
-$ node liri.js spotify-this <"song title here">
-```
-* movie-this
-```
-$ node liri.js movie-this <"movie title here">
-```
-* do-what-it-says
+* `spotify-this-song` 
+  ```
+  $ node liri.js spotify-this <"song title here">
+  ```
+  * This will show the following information about the song in your terminal/bash window
+     * Artist(s)
+     * The song's name
+     * A preview link of the song from Spotify
+     * The album that the song is from
+
+  * if no song is provided then your program will default to
+     * "The Sign" by Ace of Base
+
+
+
+* `movie-this`
+  ```
+  $ node liri.js movie-this <"movie title here">
+  ```
+	* This will output the following information to your terminal/bash window:
+
+     ```
+       * Title of the movie.
+       * Year the movie came out.
+       * IMDB Rating of the movie.
+       * Country where the movie was produced.
+       * Language of the movie.
+       * Plot of the movie.
+       * Actors in the movie.
+       * Rotten Tomatoes URL.
+       * Rotten Tomatoes Rating.
+     ```
+    * if no movie is provided then your program will default to
+       * "Mr. Nobody" 	
+
+
+
+* `do-what-it-says`
 ```
 $ node liri.js do-what-it-says
 ```
