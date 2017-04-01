@@ -24,16 +24,16 @@ runLiri(command, argument);
 //If command is not defined (understood by liri), the user is notified.
 function runLiri(command, argument)
 {
-	writeToLog("------------------------------------------");
+	writeToLog("\n==============================================================================");
 	
 
 	if(argument === undefined)
 	{
-		writeToLog("node liri " + command);
+		writeToLog("\n$ node liri " + command + "\n");
 	}
 	else	
 	{	
-		writeToLog("node liri " + command + " " +  argument);
+		writeToLog("\n$ node liri " + command + " " +  argument + "\n");
 	}	
 	
 	switch(command)
@@ -66,7 +66,7 @@ function runLiri(command, argument)
 
 //===========================================================================
 
-//Appends 'data' to log.txt file
+//Appends 'data' to log.txt file.  I used 'Sync' so data writes in order.
 function writeToLog(data)
 {
 	FS.appendFileSync('log.txt', "\n" + data);
@@ -93,11 +93,13 @@ function twitterAPI()
 	{
 		if(error)
 		{
-			console.log("\nSorry, There Seems To Be A Problem With Twitter. Try Again.");
+			let errorMsg = "Sorry, There Seems To Be A Problem With Twitter. Try Again.";
+			console.log("\n" + errorMsg);
+			writeToLog(errorMsg);
 		}
 		else
 		{		    			
-			console.log("\n*** My Last 20 Tweets (Newest First) ***\n");
+			console.log("\n* My Last 20 Tweets (Newest First) *\n");
 
 			//Loops through last 20 'tweets' and displays them if they exist. 
 		    for(let i = 0; i < 20; i++)
@@ -110,7 +112,9 @@ function twitterAPI()
 		    		let tweetTime = MOMENT(tweets[i].created_at, "dd MMM DD HH.mm:ss ZZ YYYY")
 		    			.format("MMMM Do YYYY h:mm A");	    		
 
-		    		console.log(tweetTime + "\n" +"- '"+ tweet + "'\n");	    		
+		    		let tweetMsg = tweetTime + "\n" +"- '"+ tweet;
+		    		console.log(tweetMsg);
+		    		writeToLog(tweetMsg);	    		
 		    	}		    			    	
 			}
 	  	}//END else
@@ -134,22 +138,37 @@ function spotifyAPI(song)
 	SPOTIFY.search({ type: 'track', query: song }, function(err, data) {
 	    //checks for error
 	    if (err) {
-	        console.log("\nSorry, There Seems To Be A Problem With Spotify. Try Again.");
+	        let errorMsg = "Sorry, There Seems To Be A Problem With Spotify. Try Again.";
+	        console.log("\n" + errorMsg);
+	        writeToLog(errorMsg);
 	        return;
 	    }
 
 		//Checks if any song information found.
 		if(data.tracks.items.length !== 0)
 		{
-		    console.log("\n*** Spotify Results For '" + song + "' ***");	    
-		    console.log("Artist: " + data.tracks.items[0].artists[0].name);
-		    console.log("Song Name: " + data.tracks.items[0].name);
-		    console.log("Preview URL: " + data.tracks.items[0].preview_url);
-		    console.log("Album: " + data.tracks.items[0].album.name);
+		    //String messeges for display
+			let resultsMsg = "* Spotify Results For '" + song + "' *\n";
+			let artistMsg = "Artist: " + data.tracks.items[0].artists[0].name;
+			let songMsg = "Song Name: " + data.tracks.items[0].name ;
+			let previewMsg = "Preview URL: " + data.tracks.items[0].preview_url; 
+			let albumMsg = "Album: " + data.tracks.items[0].album.name;
+
+			//array of string messeges
+			let messages =[resultsMsg,artistMsg, songMsg, previewMsg, albumMsg];
+
+			for(let key in messages)
+			{
+				console.log(messages[key]);
+				writeToLog(messages[key]);
+			}	
+		    
 		}
 		else
 		{
-			console.log("\n'" + song +"' Found No Results!  Try Another Song.");
+			let noResultsMsg = song +"' Found No Results!  Try Another Song."
+			console.log(noResultsMsg);
+			writeToLog(noResultsMsg);
 		}
 	});
 }//END spotifyAPI()
@@ -194,7 +213,7 @@ function omdbAPI(movie)
 		{		
 			let movieTitle = movieData.Title;
 			
-			console.log("\n---------- OMDB Results For '" + movieTitle + "' ----------\n");
+			console.log("\n* OMDB Results For '" + movieTitle + "' *\n");
 		 	console.log("Title: " + movieTitle);
 		 	console.log("Year: " + movieData.Year);
 		 	console.log("IMBD Rating: " + movieData.imdbRating);
