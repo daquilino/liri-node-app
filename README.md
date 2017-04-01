@@ -30,7 +30,7 @@ $ npm install
 ## Usage
 liri takes the following four commands as arguments.
 
-* my-tweets
+* `my-tweets`
   * Displays my last 20 tweets.
 ```
 $ node liri.js my-tweets
