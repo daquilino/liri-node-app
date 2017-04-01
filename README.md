@@ -28,19 +28,19 @@ $ npm install
 
 
 ## Usage
-### Liri takes the following four commands as arguments.
+#### Liri takes the following four commands as arguments.
 
 1. `my-tweets`
  
-```
-$ node liri.js my-tweets 
-```
+ ```
+ $ node liri.js my-tweets 
+ ```
   * Displays my last 20 tweets in your terminal/bash window.
 
 2. `spotify-this-song` 
-```
-$ node liri.js spotify-this <"song title here">
-```
+  ```
+  $ node liri.js spotify-this <"song title here">
+  ```
   * This will show the following information about the song in your terminal/bash window
      
 	```
