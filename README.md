@@ -35,12 +35,14 @@ $ npm install
   ```
   $ node liri.js my-tweets 
   ```
-    * Displays my last 20 tweets in your terminal/bash window.
+
+   * Displays my last 20 tweets in your terminal/bash window.
 
 2. `spotify-this-song` 
   ```
   $ node liri.js spotify-this <"song title here">
   ```
+
   * This will show the following information about the song in your terminal/bash window
      
 	```
