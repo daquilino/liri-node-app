@@ -346,6 +346,9 @@ function doWhatItSays()
 	  	let command = args[0];
 	  	let argument = args[1];
 	  	
+	  	
+	  	writeToLog("*Next Command Ran From 'Random.txt'");
+	  	
 	  	//Runs liri with 'command' and 'argument'.
 	  	runLiri(command, argument);
  	});//END FS.readFile
